@@ -1,0 +1,73 @@
+<html>
+<head>
+    <title>Stopwatch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f5f5dc;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center h-screen">
+    <div class="text-center">
+        <h1 class="text-2xl font-bold mb-8">Stopwatch</h1>
+        <div class="bg-green-100 p-8 rounded-lg shadow-lg inline-block">
+            <div id="display" class="text-4xl font-bold mb-4">00:00:00</div>
+            <div class="space-x-4">
+                <button id="startBtn" class="bg-black text-white px-4 py-2 rounded">Start</button>
+                <button id="stopBtn" class="bg-black text-white px-4 py-2 rounded">Stop</button>
+                <button id="resetBtn" class="bg-black text-white px-4 py-2 rounded">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let timer;
+        let seconds = 0;
+        let minutes = 0;
+        let hours = 0;
+
+        function updateDisplay() {
+            document.getElementById('display').innerText = 
+                (hours < 10 ? "0" + hours : hours) + ":" + 
+                (minutes < 10 ? "0" + minutes : minutes) + ":" + 
+                (seconds < 10 ? "0" + seconds : seconds);
+        }
+
+        function startTimer() {
+            if (!timer) {
+                timer = setInterval(() => {
+                    seconds++;
+                    if (seconds === 60) {
+                        seconds = 0;
+                        minutes++;
+                        if (minutes === 60) {
+                            minutes = 0;
+                            hours++;
+                        }
+                    }
+                    updateDisplay();
+                }, 1000);
+            }
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            timer = null;
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            timer = null;
+            seconds = 0;
+            minutes = 0;
+            hours = 0;
+            updateDisplay();
+        }
+
+        document.getElementById('startBtn').addEventListener('click', startTimer);
+        document.getElementById('stopBtn').addEventListener('click', stopTimer);
+        document.getElementById('resetBtn').addEventListener('click', resetTimer);
+    </script>
+</body>
+</html>
